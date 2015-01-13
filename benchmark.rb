@@ -7,6 +7,11 @@ require 'rails'
 require 'active_support/cache/dalli_store'
 require 'active_support/cache/memcached_store'
 
+puts "mem_cache: https://github.com/mperham/memcache-client"
+puts "memcached: https://github.com/evan/memcached"
+puts "dalli: https://github.com/mperham/dalli"
+puts "memcached_store: https://github.com/Shopify/memcached_store"
+
 servers = ['localhost:11211']
 iterations = 10_000
 ruby_clients = { 
