@@ -80,13 +80,15 @@ ruby_clients.each do |name, client|
     }
     bm.report("#{name}:multiget") {
       keys = [@key1, @key2, @key3, @key4, @key5, @key6]
-      iterations.times {
-        if name.to_s == "memcached" || name.to_s == "memcached_disable_binary"
+      if name.to_s == "memcached" || name.to_s == "memcached_disable_binary"
+        iterations.times {
           client.get keys
-        else
+        }
+      else
+        iterations.times {
           client.get_multi keys
-        end
-      }
+        }
+      end
     }
     bm.report("#{name}:missing") {
       iterations.times { 
