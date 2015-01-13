@@ -10,18 +10,18 @@ require 'active_support/cache/memcached_store'
 servers = ['localhost:11211']
 iterations = 10_000
 ruby_clients = { 
-  memcache_client: MemCache.new(servers),
-  memcached: Memcached.new(servers, binary_protocol: false), 
-  memcached_binary: Memcached.new(servers),
-  memcached_rails: Memcached::Rails.new(servers, binary_protocol: false),
-  memcached_rails_binary: Memcached::Rails.new(servers),
+  memcache_client: MemCache.new(servers), 
+  memcached: Memcached.new(servers),
+  memcached_disable_binary: Memcached.new(servers, binary_protocol: false),
+  memcached_rails: Memcached::Rails.new(servers),
+  memcached_rails_disable_binary: Memcached::Rails.new(servers, binary_protocol: false),
   dalli: Dalli::Client.new(servers)
 }
 
 rails_clients = {
   memcached_store: ActiveSupport::Cache::MemcachedStore.new(servers),
-  mem_cache_store_binary: ActiveSupport::Cache::MemCacheStore.new(servers),
-  mem_cache_store: ActiveSupport::Cache::MemCacheStore.new(servers, binary_protocol: false),
+  mem_cache_store: ActiveSupport::Cache::MemCacheStore.new(servers),
+  mem_cache_store_disable_binary: ActiveSupport::Cache::MemCacheStore.new(servers, binary_protocol: false),
   dalli_store: ActiveSupport::Cache::DalliStore.new(servers)
 }
 
@@ -42,7 +42,7 @@ puts "Testing with Rails #{Rails.version} on #{RUBY_DESCRIPTION}"
 ruby_clients.each do |name, client|
   puts "\n================== " + name.to_s + " =================="
   
-  Benchmark.bm(50) {|bm|
+  Benchmark.bm(75) {|bm|
     bm.report("#{name}:set") {
       iterations.times { 
         client.set @key1, @value
@@ -81,7 +81,7 @@ ruby_clients.each do |name, client|
     bm.report("#{name}:multiget") {
       keys = [@key1, @key2, @key3, @key4, @key5, @key6]
       iterations.times {
-        if name.to_s == "memcached"
+        if name.to_s == "memcached" || name.to_s == "memcached_disable_binary"
           client.get keys
         else
           client.get_multi keys
@@ -124,7 +124,7 @@ rails_clients.each do |name, client|
     client.write("#{key}_#{name}_long", sizeable_data)
   end
   
-  Benchmark.bm(50) {|bm|
+  Benchmark.bm(75) {|bm|
     bm.report("#{name}:mixed") {
       iterations.times { 
         client.read @key1
