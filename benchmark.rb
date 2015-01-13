@@ -10,14 +10,18 @@ require 'active_support/cache/memcached_store'
 servers = ['localhost:11211']
 iterations = 10_000
 ruby_clients = { 
-  memcache_client: MemCache.new(servers), 
-  memcached: Memcached.new(servers), 
+  memcache_client: MemCache.new(servers),
+  memcached: Memcached.new(servers, binary_protocol: false), 
+  memcached_binary: Memcached.new(servers),
+  memcached_rails: Memcached::Rails.new(servers, binary_protocol: false),
+  memcached_rails_binary: Memcached::Rails.new(servers),
   dalli: Dalli::Client.new(servers)
 }
 
 rails_clients = {
   memcached_store: ActiveSupport::Cache::MemcachedStore.new(servers),
-  mem_cache_store: ActiveSupport::Cache::MemCacheStore.new(servers),
+  mem_cache_store_binary: ActiveSupport::Cache::MemCacheStore.new(servers),
+  mem_cache_store: ActiveSupport::Cache::MemCacheStore.new(servers, binary_protocol: false),
   dalli_store: ActiveSupport::Cache::DalliStore.new(servers)
 }
 
