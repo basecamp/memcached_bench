@@ -116,6 +116,11 @@ ruby_clients.each do |name, client|
         client.get @key3
       }
     }
+    unless name.to_s.include?("memcached")
+      client.flush_all
+    else
+      client.flush
+    end
   }
 end
 
@@ -217,5 +222,6 @@ rails_clients.each do |name, client|
         end
       }
     }
+    client.clear
   }
 end
