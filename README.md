@@ -138,3 +138,5 @@ Test Server:
 - Ubuntu 12.04.4 LTS, Intel(R) Xeon(R) CPU E3-1270 V2 @ 3.50GHz, 32GB 1600 MHz DDR3.
 - Rails 4.2.0 on ruby 2.1.5p273 (2014-11-13 revision 48405) [x86_64-linux]
 
+## Inspiration
+Much of this test suite is based off of https://github.com/mperham/dalli/blob/master/test/benchmark_test.rb
