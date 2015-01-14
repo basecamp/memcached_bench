@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'benchmark'
 require 'rubygems'
 require 'memcache'
