@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'benchmark'
+require "inline"
+require 'kgio'
 require 'rubygems'
 require 'memcache'
 require 'memcached'

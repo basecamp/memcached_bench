@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    RubyInline (3.12.3)
+      ZenTest (~> 4.3)
+    ZenTest (4.11.0)
     actionmailer (4.2.0)
       actionpack (= 4.2.0)
       actionview (= 4.2.0)
@@ -108,6 +111,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  RubyInline
   dalli
   kgio
   memcache-client
